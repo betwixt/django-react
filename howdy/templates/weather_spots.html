@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>My Weather Project</title>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/spots.css' %}">
+    </head>
+    <body>
+	<div>
+		<h2 style="text-align: left"> Multi-City Weather  </h2>
+	</div>
+	
+	<div class="row">
+	{% for wspot in spots %}
+	
+	<div style="width: 280px" class="col-md-4">
+		<h3> {{wspot.observation.city }} </h3>
+		<p class=petite> reported: <strong> {{ wspot.observation.datetime }} </strong> </p>
+		<div>
+			<div class=beside>
+				<p id=currtemp> {{ wspot.observation.tempF }} </p>
+				<div id=stacked>
+					<p> {{wspot.observation.weatherShort}} </p>
+					<img src={% static wspot.observation.icon %} width= 70 />
+				</div>  
+			</div>
+			<p id=curwind> Wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
+			<div id=days>
+				<div id=legend>
+					<p>  </p>
+					<p> % prec </p>
+					<p> mph w </p>
+				</div>
+			{% for fc in wspot.forecasts %}
+				<div id=oneday>
+					<p> {{ fc.day_of_week }} </p>
+					<p> {{ fc.temp_hi}} | {{ fc.temp_lo }} </p>
+					<p> {{ fc.pop }} </p>
+					<p> {{ fc.wind_hi }} </p>
+				</div>				
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+	
+	{% endfor %}
+	</div>
+	<!-- end of row -->
+	
+	</body>
+	
+</html>

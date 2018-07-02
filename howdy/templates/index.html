@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>My Weather Project</title>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/spots.css' %}">
+    </head>
+    <body>
+        <h3>Where To?</h3>
+		<h4>Enter a zipcode or city,state</h4>
+		<form action="/" method="POST">
+		    {% csrf_token %}
+		    {{infields.as_p}}
+			<button type="submit">Submit</button>
+		</form>
+		
+		<!-- Render the weather info after user has input a Location 
+		{% if wspot.location %}   {% endif %}
+		     {% for key, value in wspot.observation.items %}
+				<p> {{ key }}: {{ value }}  </p>
+			 {% endfor %}     -->
+		<!-- City, State
+		     "reported: " Datetime
+		     Temp beside icon/general weather
+		     Wind speed  -->
+		
+		{% if wspot.location %}
+			<div style="width: 280px">
+			<h2> {{wspot.observation.city }} </h2>
+			<p class=petite> reported: <strong> {{ wspot.observation.datetime }} </strong> </p>
+			<div>
+				<div class=beside>
+					<p id=currtemp> {{ wspot.observation.tempF }} </p>
+					<div id=stacked>
+						<p> {{wspot.observation.weatherShort}} </p>
+						<img src={% static wspot.observation.icon %} width= 70 />
+					</div>  
+				</div>
+				<p id=curwind> Wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
+
+			</div>
+			</div>
+		{% endif %}
+		
+
+    </body>
+</html>
+
+

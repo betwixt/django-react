@@ -1,0 +1,72 @@
+
+h2 {
+    color: red;
+}
+
+h3 {
+    color: indigo;
+}
+
+body {
+    padding-left: 15px;
+	text-align: center;
+
+}
+
+.petite {
+    font-size: 10px;
+}
+
+#stacked {
+    display: inline-block;
+    text-align: center;
+    width: 125px;
+    height: 120px;
+    background: #f2a4bf;
+}
+
+#stacked p {
+    font-style: italic;
+    color: green;
+}
+
+.beside {
+    display: inline-block;
+    width: 250px;
+}
+
+#currtemp {
+    display: inline-block;
+    font-size: 50px;
+    font-weight: bold;
+	text-align: center;
+    color: darkblue;
+	width: 121px;
+    position: relative;
+    top: -15px;
+}
+
+#curwind {
+    text-align: center;
+    width: 250px;
+    border: 1px solid black;
+}
+
+#days {
+	display: inline-block;
+	width: 250px;
+	font-size: 11px;
+}
+#legend {
+	display: inline-block;
+	position: relative;
+	width: 40px;
+}
+#oneday{
+	display: inline-block;
+	width: 46px;
+	font-weight: bold;
+	position: relative;
+/*	border: 2px solid gray;
+	padding: 2px;  */
+}

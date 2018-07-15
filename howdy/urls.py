@@ -5,8 +5,9 @@ from django.conf.urls import url
 from howdy import views
 
 urlpatterns = [
-    url(r'^$', views.get_input),
-    url(r'^show/', views.show_spots, name="show_weather"),
+    url(r'^trial/$', views.get_input, name="trial"),
+    url(r'^$', views.show_spots, name="show_weather"),
+    url(r'^weatherspot/(?P<pk>\d+)/edit$', views.edit_spot, name='wspot_edit'),
     url(r'^about/$', views.AboutPageView.as_view()),
 ]
 

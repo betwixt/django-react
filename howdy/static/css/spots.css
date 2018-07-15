@@ -15,6 +15,14 @@ body {
 
 .petite {
     font-size: 10px;
+	text-align: left;
+	display: inline-block;
+}
+
+.edit {
+	top: -20px;
+	display: inline-block;
+	margin-left: 67px;
 }
 
 #stacked {

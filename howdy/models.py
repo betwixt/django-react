@@ -8,7 +8,7 @@ class WeatherSpot(models.Model):
     #text = models.TextField()
     
     location = models.CharField(max_length=200)
-    created_date = models.DateTimeField(default=timezone.now)
+    start_date = models.DateTimeField(default=timezone.now, blank=True)
     observation = {}
     forecast = {}
 

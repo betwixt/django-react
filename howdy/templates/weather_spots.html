@@ -17,8 +17,17 @@
 	{% for wspot in spots %}
 	
 	<div style="width: 280px" class="col-md-4">
-		<h3> {{wspot.observation.city }} </h3>
-		<p class=petite> reported: <strong> {{ wspot.observation.datetime }} </strong> </p>
+
+
+		<h3> 
+			{{wspot.observation.city }} 
+		</h3>
+		
+		<p class=petite> 
+			<strong> {{ wspot.observation.datetime }} </strong> 	
+		</p>
+		<a class="btn btn-link edit" href="{% url 'wspot_edit' pk=wspot.pk %}"><span class="glyphicon glyphicon-pencil"></span></a> 
+
 		<div>
 			<div class=beside>
 				<p id=currtemp> {{ wspot.observation.tempF }} </p>

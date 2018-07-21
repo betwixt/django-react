@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="{% static 'css/spots.css' %}">
     </head>
     <body>
+		<script src="https://code.highcharts.com/highcharts.src.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		
 	<div>
 		<h2 style="text-align: left"> Multi-City Weather  </h2>
 	</div>
@@ -53,6 +56,17 @@
 			{% endfor %}
 			</div>
 		</div>
+		<!-- graph using highcharts -->
+		<div id="container{{wspot.pk}}" style="height: 200px" data-url="{% url 'chart_data' pk=wspot.pk %}"></div>
+		<script>
+			$.ajax({
+			url: $("#container{{wspot.pk}}").attr("data-url"),
+			dataType: 'json',
+			success: function (data) {
+				Highcharts.chart("container{{wspot.pk}}", data);
+			}
+			});
+		</script>
 	</div>
 	
 	{% endfor %}

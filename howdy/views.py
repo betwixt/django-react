@@ -2,9 +2,11 @@
 
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import TemplateView
+from django.http import JsonResponse
 from .forms import InputForm
-from .aeris_weather import getConditions, getForecasts
+from .aeris_weather import getConditions, getForecasts, getHourly
 from .models import WeatherSpot
+from datetime import date
 
 # From previous example
 class HomePageView(TemplateView):
@@ -20,15 +22,16 @@ class AboutPageView(TemplateView):
 
 def get_input(request):
 
-    wspot = WeatherSpot()
+    wspot = get_object_or_404(WeatherSpot, pk=1)
     
     if request.method =="POST":
-        form = InputForm(request.POST)
+        form = InputForm(request.POST, instance=wspot)
         if form.is_valid():
             loc = form.cleaned_data["location"]
             wspot.location = loc
             wspot.observation = getConditions(loc)
             wspot.forecasts = getForecasts(loc)
+            wspot = form.save()
             
     else:
         form = InputForm()   
@@ -38,14 +41,11 @@ def get_input(request):
     
 def edit_spot(request, pk):
     ws = get_object_or_404(WeatherSpot, pk=pk)
-    print('Got ws instance: {}'.format(ws))
+    
     if request.method == "POST":
-        print('*********** In POST')
         form = InputForm(request.POST, instance=ws)
         if form.is_valid():
-            print('*********** About to save')
             ws = form.save()
-            # ws.save()
             return redirect('show_weather')
     else:
         form = InputForm(instance=ws)
@@ -61,3 +61,78 @@ def show_spots(request):
     
     return render(request, 'weather_spots.html', {'spots': spots})  
 #
+def chart_data(request, pk):
+
+    # Combine hourly data from different days in the weather spot
+    ws = get_object_or_404(WeatherSpot, pk=pk)
+    print('In chart_data, pk is {}'.format(pk))
+    fc = getHourly(ws.location, date.today())
+
+    data = fc['hour_temps']
+
+    # for day in fc:
+        # data.extend( day['hour_temps'] )
+    # print ('Hourly data array: {}'.format(data))
+    
+    chart = {
+            'time': {
+                'timezone': fc['tz'],
+                'useUTC': False
+            },
+
+            'title': {
+                'text': ''
+            },
+            'xAxis': {
+                'type': 'datetime'
+            },
+            'yAxis': {
+                'title': {
+                    'text': 'Temperature'
+                }
+            },
+            'legend': {
+                'enabled': False
+            },
+            'plotOptions': {
+                'line': {
+                    'marker': { 'radius': 2, 'symbol': 'diamond' },
+                    'states': {
+                        'hover': { 
+                            'lineWidthPlus': 0
+                        }
+                    },
+                    'animation': False
+                }
+            },
+            'tooltip': {
+                'dateTimeLabelFormats': {
+                    'hour': '%a, %I%p'
+                },
+                'crosshairs': [True, False],
+                'borderWidth': 0
+            },
+
+            'series': [{
+                'type': 'line',
+                'name': ' ',
+                'color': 'red',
+                'data': data
+            }]
+        }
+    return JsonResponse(chart)
+
+#
+#
+                # 'area': {
+                    # 'marker': {
+                        # 'radius': 2
+                    # },
+                    # 'lineWidth': 1,
+                    # 'states': {
+                        # 'hover': {
+                            # 'lineWidth': 1
+                        # }
+                    # },
+                    # 'threshold': None
+                # }

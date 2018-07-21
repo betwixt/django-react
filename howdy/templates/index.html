@@ -29,7 +29,7 @@
 		     Wind speed  -->
 		
 		{% if wspot.location %}
-			<div style="width: 280px">
+		<div style="width: 280px">
 			<h2> {{wspot.observation.city }} </h2>
 			<p class=petite> reported: <strong> {{ wspot.observation.datetime }} </strong> </p>
 			<div>
@@ -41,9 +41,22 @@
 					</div>  
 				</div>
 				<p id=curwind> Wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
-
 			</div>
-			</div>
+			
+			<!-- graph using highcharts -->
+			<div id="container" style="height: 200px" data-url="{% url 'chart_data' pk=3 %}"></div>
+			<script src="https://code.highcharts.com/highcharts.src.js"></script>
+			<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+			<script>
+				$.ajax({
+				url: $("#container").attr("data-url"),
+				dataType: 'json',
+				success: function (data) {
+					Highcharts.chart("container", data);
+				}
+				});
+			</script>
+		</div>
 		{% endif %}
 		
 

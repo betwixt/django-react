@@ -33,6 +33,8 @@ def simpleAerisRequest(location, endpoint, paramMap={}):
     jres = r.json()
     if ( not jres['success'] ):  #TODO change to exception
         print('Error, weather request failed!  Reason: {}\n'.format(jres['error']))
+#    if verbose:
+#        print('simpleAerisRequest returns {}'.format(jres))
     return jres
 	
 #  Returns a dictionary containing info from Aeris observation:
@@ -92,6 +94,7 @@ def getForecasts(location):
         map['wind_hi'] = '--'
         map['hour_temps'] = []
         map['hour_pops']  = []
+        map['timestamps'] = []
         fc_days.append(map)
 
     # Build list for returning data
@@ -106,32 +109,51 @@ def getForecasts(location):
         map['wind_hi'] = fcdata['windSpeedMaxMPH']
         map['hour_temps'] = []
         map['hour_pops']  = []                
+        map['timestamps'] = []
         fc_days.append(map)
-
-    # Gather hourly info - expecting fc_days to have same dates, ordering as hourly array
-    specs = {'filter': 'mdnt2mdnt,3hr', 'from': 'today', 'to': '+3days',
-        'fields': 'periods.dateTimeISO,periods.tempF,periods.pop'
-    }
-    #TODO  add code to catch exception
-    jresponse = simpleAerisRequest(location, 'forecasts', specs)
-    
-    hourly = jresponse['response'][0]['periods']
-    it_days = iter(fc_days)
-    day = it_days.__next__()
-    for x in hourly:
-        if not x['dateTimeISO'].startswith(day['date']):
-            # print('Hourly date is: {}, days date is:{}\n'.format(x['dateTimeISO'], day['date']))
-            day = it_days.__next__()
-            if not x['dateTimeISO'].startswith(day['date']):
-                print('ERRRROORRRR!!!! make a handler')
-                print('AFTER next - Hourly date is: {}, days date is:{}\n'.format(x['dateTimeISO'], day['date']))
-                break
-        day['hour_temps'].append(x['tempF'])
-        day['hour_pops'].append(x['pop'])
-    
+    # Gather hourly info - expecting fc_days to have same dates and ordering as hourly array
+    # **moved hourly to separate function call  
+        
     if verbose:
         print(fc_days)
     return fc_days
+    
+#   Creates 2 arrays of hourly data: temp and % precipitation
+#   Each array has elements that are timestamp/data, for 4 days
+#   TODO: Include a check that dates in the weather data are as expected
+def getHourly(location, start_date):
+    specs = {'filter': 'mdnt2mdnt,1hr', 'from': 'today', 'to': '+3days',
+        'fields': 'periods.dateTimeISO,periods.timestamp,periods.tempF,periods.pop,profile.tz'
+    }
+    #TODO  add code to catch exception
+    jresponse = simpleAerisRequest(location, 'forecasts', specs)    
+    hourly = jresponse['response'][0]['periods']
+    tz = jresponse['response'][0]['profile']['tz']
+    print('timezone: {}'.format(tz))
+    
+    temps = []
+    pops = []
+
+    # if not x['dateTimeISO'].startswith(day['date']):
+        # # print('Hourly date is: {}, days date is:{}\n'.format(x['dateTimeISO'], day['date']))
+        # day = it_days.__next__()
+        # if not x['dateTimeISO'].startswith(day['date']):
+            # print('ERRRROORRRR!!!! make a handler')
+            # print('AFTER next - Hourly date is: {}, days date is:{}\n'.format(x['dateTimeISO'], day['date']))
+           # break    
+
+    for x in hourly:
+
+        # Put data in format expected by highcharts - array of [time,val]
+        time = x['timestamp'] * 1000
+        temps.append([time, x['tempF']])
+        pops.append([time, x['pop']])
+    if verbose:
+        print('Temps: {}'.format(temps))
+        
+    return {'hour_temps': temps, 'hour_pops': pops, 'tz': tz}
+    
+
 
 # Return day abbreviation, given a date string in ISO format
 def day_of_week(dt_str):

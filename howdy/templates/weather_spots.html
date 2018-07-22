@@ -27,11 +27,11 @@
 		</h3>
 		
 		<p class=petite> 
-			<strong> {{ wspot.observation.datetime }} </strong> 	
+			<strong> As of {{ wspot.observation.datetime }} </strong> 	
 		</p>
 		<a class="btn btn-link edit" href="{% url 'wspot_edit' pk=wspot.pk %}"><span class="glyphicon glyphicon-pencil"></span></a> 
 
-		<div>
+		<div style="border: 1px dashed gray">
 			<div class=beside>
 				<p id=currtemp> {{ wspot.observation.tempF }} </p>
 				<div id=stacked>
@@ -43,8 +43,8 @@
 			<div id=days>
 				<div id=legend>
 					<p>  </p>
-					<p> % prec </p>
-					<p> mph w </p>
+					<p> <img src={% static "png/004-drop.png" %} width= 16 /> </p>
+					<p> <img src={% static "png/002-wind.png" %} width= 16 /> </p>
 				</div>
 			{% for fc in wspot.forecasts %}
 				<div id=oneday>

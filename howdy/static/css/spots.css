@@ -1,16 +1,21 @@
 
-h2 {
+#pagetitle {
     color: red;
+	font-size: 30px;
+	font-family: 'Montserrat';
+	font-weight: bold;
+	text-align: left;
 }
 
-h3 {
-    color: indigo;
+.city {
+	font-size: 28px;
+	font-family: 'Arapey';
+	font-weight: bold;
 }
 
 body {
     padding-left: 15px;
 	text-align: center;
-
 }
 
 .petite {
@@ -22,7 +27,7 @@ body {
 .edit {
 	top: -20px;
 	display: inline-block;
-	margin-left: 40px;
+	margin-left: 41px;
 }
 
 .vertical {
@@ -37,35 +42,33 @@ body {
 
 #stacked {
     display: inline-block;
-    text-align: center;
     width: 123px;
     height: 120px;
-    background: #f2a4bf;
 }
 
 #stacked p {
     font-style: italic;
-    color: green;
 }
 
 .beside {
     display: inline-block;
     width: 250px;
+	font-family: 'Arapey';
+	color: #4000ff;
+
 }
 
 #currtemp {
     display: inline-block;
-    font-size: 50px;
-    font-weight: bold;
-	text-align: center;
-    color: darkblue;
+    font-size: 60px;
 	width: 119px;
     position: relative;
-    top: 0px;
+    top: 15px;
 }
 
 #curwind {
-    text-align: center;
+	font-family: 'Arapey';
+	font-style: italic;
     width: 250px;
 /*    border: 1px solid black; */
 }
@@ -74,17 +77,22 @@ body {
 	display: inline-block;
 	width: 250px;
 	font-size: 11px;
+	margin-top: 10px;
 }
 #legend {
 	display: inline-block;
 	position: relative;
-	width: 22px;
+	width: 37px;
+	font-family: 'Arial';
+	padding-right:5px;
+	border-right: 1px solid gray;
 }
 #oneday{
 	display: inline-block;
 	width: 60px;
 	font-weight: bold;
 	position: relative;
+	font-family: 'Arial';
 /*	border: 2px solid gray;
 	padding: 2px;  */
 }

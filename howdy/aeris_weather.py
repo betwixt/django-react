@@ -77,6 +77,7 @@ def getForecasts(location):
     specs = { 'filter': 'mdnt2mdnt','from': 'today','to': '+3days',
         'fields': 'periods.dateTimeISO,periods.maxTempF,periods.minTempF,periods.pop,periods.windSpeedMaxMPH,profile.tz'
     }   
+    num_days = 3
     #TODO  add code to catch exception
     jresponse = simpleAerisRequest(location, 'forecasts', specs)
 
@@ -85,6 +86,7 @@ def getForecasts(location):
     
     # Check for inconsistent behavior, where today isn't included in response
     if periods[0]['dateTimeISO'].split('T')[0] != today:
+        num_days = 2
         map = {}
         map['date'] = today
         map['day_of_week'] = datetime.datetime.today().strftime('%a')
@@ -92,13 +94,10 @@ def getForecasts(location):
         map['temp_lo'] = '--'
         map['pop'] = '--'
         map['wind_hi'] = '--'
-        map['hour_temps'] = []
-        map['hour_pops']  = []
-        map['timestamps'] = []
         fc_days.append(map)
 
     # Build list for returning data
-    for n in range(3):    #(len(periods))
+    for n in range(num_days):    
         fcdata = periods[n]
         map = {}
         map['date'] = fcdata['dateTimeISO'].split('T')[0]
@@ -107,11 +106,8 @@ def getForecasts(location):
         map['temp_lo'] = fcdata['minTempF']
         map['pop'] = fcdata['pop']
         map['wind_hi'] = fcdata['windSpeedMaxMPH']
-        map['hour_temps'] = []
-        map['hour_pops']  = []                
-        map['timestamps'] = []
         fc_days.append(map)
-    # Gather hourly info - expecting fc_days to have same dates and ordering as hourly array
+
     # **moved hourly to separate function call  
         
     if verbose:

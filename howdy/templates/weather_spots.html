@@ -6,6 +6,8 @@
         <title>My Weather Project</title>
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link href="//fonts.googleapis.com/css?family=Arapey" rel="stylesheet" type="text/css">
+		<link href="//fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{% static 'css/spots.css' %}">
     </head>
     <body>
@@ -13,7 +15,7 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		
 	<div>
-		<h2 style="text-align: left"> Multi-City Weather  </h2>
+		<p id="pagetitle"> Multi-City Weather  </p>
 	</div>
 	
 	<div class="row">
@@ -22,40 +24,40 @@
 	<div style="width: 280px" class="col-md-4">
 
 
-		<h3> 
+		<p class="city"> 
 			{{wspot.observation.city }} 
-		</h3>
+		</p>
 		
 		<p class=petite> 
 			<strong> As of {{ wspot.observation.datetime }} </strong> 	
 		</p>
 		<a class="btn btn-link edit" href="{% url 'wspot_edit' pk=wspot.pk %}"><span class="glyphicon glyphicon-pencil"></span></a> 
 
-		<div style="border: 1px dashed gray">
+		<div style="border: 1px solid lightblue">
 			<div class=beside>
 				<p id=currtemp> {{ wspot.observation.tempF }} </p>
 				<div id=stacked>
-					<p> {{wspot.observation.weatherShort}} </p>
+					<p> <strong> {{wspot.observation.weatherShort}} </strong> </p>
 					<img src={% static wspot.observation.icon %} width= 70 />
 				</div>  
 			</div>
-			<p id=curwind> Wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
-			<div id=days>
+			<p id=curwind> Current wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
+		</div>
+		<div id=days>
 				<div id=legend>
-					<p>  </p>
+					<p> <small> HI <strong>|</strong> LO </p> </small>
 					<p> <img src={% static "png/004-drop.png" %} width= 16 /> </p>
 					<p> <img src={% static "png/002-wind.png" %} width= 16 /> </p>
 				</div>
 			{% for fc in wspot.forecasts %}
 				<div id=oneday>
 					<p> {{ fc.day_of_week }} </p>
-					<p> {{ fc.temp_hi}} | {{ fc.temp_lo }} </p>
-					<p> {{ fc.pop }} </p>
-					<p> {{ fc.wind_hi }} </p>
+					<p> {{ fc.temp_hi}}&deg; | {{ fc.temp_lo }}&deg; </p>
+					<p> {{ fc.pop }}% </p>
+					<p> {{ fc.wind_hi }}<small>mph</small> </p>
 				</div>				
 			{% endfor %}
-			</div>
-		</div>
+		</div>  
 		<!-- graph using highcharts -->
 		<div id="container{{wspot.pk}}" style="height: 200px" data-url="{% url 'chart_data' pk=wspot.pk %}"></div>
 		<script>

@@ -88,7 +88,7 @@ def chart_data(request, pk):
             },
             'yAxis': {
                 'title': {
-                    'text': 'Temperature'
+                    'text': 'Temperature (F)'
                 }
             },
             'legend': {

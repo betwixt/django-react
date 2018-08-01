@@ -88,7 +88,10 @@ def chart_data(request, pk):
             },
             'yAxis': {
                 'title': {
-                    'text': 'Temperature (F)'
+                    'text': None
+                },
+                'labels': {
+                    'format': '{value} \u00b0'
                 }
             },
             'legend': {
@@ -96,9 +99,10 @@ def chart_data(request, pk):
             },
             'plotOptions': {
                 'line': {
-                    'marker': { 'radius': 2, 'symbol': 'diamond' },
+                    'marker': { 'symbol': 'diamond', 'radius': 2 },
                     'states': {
                         'hover': { 
+                            'halo': { 'size': 2 },
                             'lineWidthPlus': 0
                         }
                     },
@@ -109,13 +113,21 @@ def chart_data(request, pk):
                 'dateTimeLabelFormats': {
                     'hour': '%a, %I%p'
                 },
+                'borderRadius': 1,
+                'backgroundColor': '#FFFFFF',
+                'pointFormat': '<b>{point.y}</b><br/>',
+                'valueSuffix': '\u00b0 F',
+                'padding': 2,
+                'style': { 'fontSize': '10px', 'color': 'red' },
                 'crosshairs': [True, False],
-                'borderWidth': 0
+                'split': True,
+                'borderWidth': 0,
+                'shadow': False
             },
 
             'series': [{
                 'type': 'line',
-                'name': ' ',
+                'name': 'Hourly Temp',
                 'color': 'red',
                 'data': data
             }]

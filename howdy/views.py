@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from .forms import InputForm
 from .aeris_weather import getConditions, getForecasts, getHourly
 from .models import WeatherSpot
+from .errors import ConnectionError, InputValueError
 from datetime import date
 
 # From previous example
@@ -54,11 +55,17 @@ def edit_spot(request, pk):
 def show_spots(request):
 
     spots = WeatherSpot.objects.all().order_by('pk')
-    for sp in spots:
-        # use location of each spot to request current conditions and forecasts
-        sp.observation = getConditions(sp.location)
-        sp.forecasts = getForecasts(sp.location)
-    
+    try:
+        for sp in spots:
+            # use location of each spot to request current conditions and forecasts
+            sp.observation = getConditions(sp.location)
+            sp.forecasts = getForecasts(sp.location)
+    except ConnectionError as e:
+        pass
+        # don't redraw weather info, display a message
+    except InputValueError as e:
+        # return to form, display error message with whatever value caused the problem
+        pass
     return render(request, 'weather_spots.html', {'spots': spots})  
 #
 def chart_data(request, pk):

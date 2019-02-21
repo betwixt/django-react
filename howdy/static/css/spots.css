@@ -61,7 +61,8 @@ body {
 #currtemp {
     display: inline-block;
 	font-family: 'Montserrat';
-    font-size: 60px;
+    font-size: 52px;
+	font-weight: bold;
 	width: 119px;
     position: relative;
     top: 15px;

@@ -1,10 +1,13 @@
 import requests
 import datetime
 from pytz import timezone
+from requests.exceptions import HTTPError
+from .errors import ConnectionError
 
 app_id = "*"
 client_id = "OJYEZahfbhZ3l3LDVMnw4"
-client_secret = "7Bpln54RX53moAUSNLNLd1XtvHn8e3c2eedzWsyn"
+client_secret = "QJZDkwLIwte4e2ReFJjeRuc685GZdYXzynpDuTMf"
+#client_secret = "7Bpln54RX53moAUSNLNLd1XtvHn8e3c2eedzWsyn"
 verbose = False
 
 
@@ -25,27 +28,29 @@ def simpleAerisRequest(location, endpoint, paramMap={}):
     # print(request_url)
 	
     r = requests.get(request_url)
-    if r.status_code != 200:
-        print('Error, aeris request failure with code: {}'.format(r.status_code)) # TODO change to exception
-        return {}
-    
-    # Check for error in the aeris response
-    jres = r.json()
-    if ( not jres['success'] ):  #TODO change to exception
-        print('Error, weather request failed!  Reason: {}\n'.format(jres['error']))
-#    if verbose:
-#        print('simpleAerisRequest returns {}'.format(jres))
-    return jres
+    try:
+        if r.status_code != 200:
+            # print('Error, aeris request failure with code: {}'.format(r.status_code))
+            r.raise_for_status()
+    except HTTPError as e:
+        raise ConnectionError('Error code {}'.format(r.status_code)) from e
+    else:
+        # Check for error in the aeris response
+        jres = r.json()
+        if ( not jres['success'] ): 
+            print('Error, weather request failed!  Reason: {}\n'.format(jres['error']))
+            raise AerisAPIError(jres['error'])
+        #if verbose:
+        #    print('simpleAerisRequest returns {}'.format(jres))
+        return jres
 	
 #  Returns a dictionary containing info from Aeris observation:
 #       Station name, city, datetime w/ local timezone
 #       Temperature, wind speed, general description, matching icon
 def getConditions(location):
     specs = { 'fields': 'id,place,profile.tz,obDateTime,ob.tempF,ob.windSpeedMPH,ob.weatherShort,ob.icon' }
-    
-    #TODO  add code to catch exception
     jresponse = simpleAerisRequest(location, 'observations', specs)
-    
+
     data = jresponse['response']
     ob_data = data['ob']
     map = {}
@@ -78,7 +83,7 @@ def getForecasts(location):
         'fields': 'periods.dateTimeISO,periods.maxTempF,periods.minTempF,periods.pop,periods.windSpeedMaxMPH,profile.tz'
     }   
     num_days = 3
-    #TODO  add code to catch exception
+    
     jresponse = simpleAerisRequest(location, 'forecasts', specs)
 
     fc_days = []
@@ -121,7 +126,7 @@ def getHourly(location, start_date):
     specs = {'filter': 'mdnt2mdnt,1hr', 'from': 'today', 'to': '+3days',
         'fields': 'periods.dateTimeISO,periods.timestamp,periods.tempF,periods.pop,profile.tz'
     }
-    #TODO  add code to catch exception
+    
     jresponse = simpleAerisRequest(location, 'forecasts', specs)    
     hourly = jresponse['response'][0]['periods']
     tz = jresponse['response'][0]['profile']['tz']

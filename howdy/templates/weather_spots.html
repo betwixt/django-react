@@ -38,7 +38,7 @@
 				<p id=currtemp> {{ wspot.observation.tempF }} </p>
 				<div id=stacked>
 					<p> <strong> {{wspot.observation.weatherShort}} </strong> </p>
-					<img src={% static wspot.observation.icon %} width= 70 />
+					<img src={% static wspot.observation.icon %} width= 60 />
 				</div>  
 			</div>
 			<p id=curwind> Current wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
@@ -59,7 +59,7 @@
 			{% endfor %}
 		</div>  
 		<!-- graph using highcharts -->
-		<div id="container{{wspot.pk}}" style="height: 200px" data-url="{% url 'chart_data' pk=wspot.pk %}"></div>
+		<div id="container{{wspot.pk}}" style="height: 120px" data-url="{% url 'chart_data' pk=wspot.pk %}"></div>
 		<script>
 			$.ajax({
 			url: $("#container{{wspot.pk}}").attr("data-url"),

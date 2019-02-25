@@ -1,8 +1,8 @@
 
 
-# howdy/urls.py
+# multi_weather/urls.py
 from django.conf.urls import url
-from howdy import views
+from multi_weather import views
 
 urlpatterns = [
     url(r'^trial/$', views.get_input, name="trial"),

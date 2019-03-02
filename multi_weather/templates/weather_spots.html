@@ -4,77 +4,99 @@
     <head>
         <meta charset="utf-8">
         <title>My Weather Project</title>
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 		<link href="//fonts.googleapis.com/css?family=Arapey" rel="stylesheet" type="text/css">
 		<link href="//fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{% static 'css/spots.css' %}">
     </head>
     <body>
+<!--		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>   -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script> 
 		<script src="https://code.highcharts.com/highcharts.src.js"></script>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		
-	<div>
-		<p id="pagetitle"> Multi-City Weather  </p>
-	</div>
-	
-	<div class="row">
-	{% for wspot in spots %}
-	
-	<div style="width: 280px" class="col-md-4">
 
-
-		<p class="city"> 
-			{{wspot.observation.city }} 
-		</p>
-		
-		<p class=petite> 
-			<strong>At {{ wspot.observation.datetime }}</strong> 	
-		</p>
-		<a class="btn btn-link edit" href="{% url 'wspot_edit' pk=wspot.pk %}"><span class="glyphicon glyphicon-pencil"></span></a> 
-
-		<div style="border: 1px solid lightblue">
-			<div class=beside>
-				<p id=currtemp> {{ wspot.observation.tempF }} </p>
-				<div id=stacked>
-					<p> <strong> {{wspot.observation.weatherShort}} </strong> </p>
-					<img src={% static wspot.observation.icon %} width= 60 />
-				</div>  
-			</div>
-			<p id=curwind> Current wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
+		<div>
+			<p id="pagetitle"> Multi-City Weather  </p>
 		</div>
-		<div id=days>
-				<div id=legend>
-					<p> <small> HI <strong>|</strong> LO </p> </small>
-					<p> <img src={% static "png/004-drop.png" %} width= 16 /> </p>
-					<p> <img src={% static "png/002-wind.png" %} width= 16 /> </p>
+		
+		<div class="row">
+		{% for wspot in spots %}
+		
+		<div style="width: 280px" class="col-md-4">
+
+
+			<p class="city"> 
+				{{wspot.observation.city }} 
+			</p>
+			
+			<p class=petite> 
+				<strong>At {{ wspot.observation.datetime }}</strong> 	
+			</p>
+			<button type="button" class="edit-spot btn btn-link edit" data-id="{% url 'wspot_edit' wspot.pk %}">
+				<span class="glyphicon glyphicon-pencil"></span>
+			</button> 
+
+			<div style="border: 1px solid lightblue">
+				<div class=beside>
+					<p id=currtemp> {{ wspot.observation.tempF }} </p>
+					<div id=stacked>
+						<p> <strong> {{wspot.observation.weatherShort}} </strong> </p>
+						<img src={% static wspot.observation.icon %} width= 60 />
+					</div>  
 				</div>
-			{% for fc in wspot.forecasts %}
-				<div id=oneday>
-					<p> {{ fc.day_of_week }} </p>
-					<p> {{ fc.temp_hi}}&deg; | {{ fc.temp_lo }}&deg; </p>
-					<p> {{ fc.pop }}% </p>
-					<p> {{ fc.wind_hi }} <small>mph</small> </p>
-				</div>				
-			{% endfor %}
-		</div>  
-		<!-- graph using highcharts -->
-		<div id="container{{wspot.pk}}" style="height: 120px" data-url="{% url 'chart_data' pk=wspot.pk %}"></div>
-		<script>
-			$.ajax({
-			url: $("#container{{wspot.pk}}").attr("data-url"),
-			dataType: 'json',
-			success: function (data) {
-				Highcharts.chart("container{{wspot.pk}}", data);
-			}
-			});
-		</script>
-	</div>
+				<p id=curwind> Current wind: <strong> {{wspot.observation.windSpeedMPH}} MPH </strong>  </p>
+			</div>
+			<div id=days>
+					<div id=legend>
+						<p> <small> HI <strong>|</strong> LO </p> </small>
+						<p> <img src={% static "png/004-drop.png" %} width= 16 /> </p>
+						<p> <img src={% static "png/002-wind.png" %} width= 16 /> </p>
+					</div>
+				{% for fc in wspot.forecasts %}
+					<div id=oneday>
+						<p> {{ fc.day_of_week }} </p>
+						<p> {{ fc.temp_hi}}&deg; | {{ fc.temp_lo }}&deg; </p>
+						<p> {{ fc.pop }}% </p>
+						<p> {{ fc.wind_hi }} <small>mph</small> </p>
+					</div>				
+				{% endfor %}
+			</div>  
+			<!-- graph using highcharts -->
+			<div id="container{{wspot.pk}}" style="height: 120px" data-url="{% url 'chart_data' pk=wspot.pk %}"></div>
+			<script>
+				$.ajax({
+				url: $("#container{{wspot.pk}}").attr("data-url"),
+				dataType: 'json',
+				success: function (data) {
+					Highcharts.chart("container{{wspot.pk}}", data);
+				}
+				});
+			</script>
+		</div>
+		
+		{% endfor %}
+		</div>
+		<!-- end of row -->
 	
-	{% endfor %}
-	</div>
-	<!-- end of row -->
-	
+		<div id="popup" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content"></div>
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal --> 
+
+        <script type="text/javascript">
+		  $(function () {	
+				// Update book buttons
+				$(".edit-spot").each(function () {
+				  console.log('In each, data-id is ' + $(this).data('id'))
+				  $(this).modalForm({formURL: $(this).data('id'), modalID: "#popup"});
+				});
+		  });
+	    </script>
+
+		
 	</body>
 	
 </html>

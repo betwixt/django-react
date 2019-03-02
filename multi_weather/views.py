@@ -1,26 +1,41 @@
 
 
 from django.shortcuts import render,redirect,get_object_or_404
-from django.views.generic import TemplateView
 from django.http import JsonResponse
+
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+from django.views import generic
+from datetime import date
+
 from .forms import InputForm
 from .aeris_weather import getConditions, getForecasts, getHourly
 from .models import WeatherSpot
 from .errors import ConnectionError, InputValueError
-from datetime import date
 
-# From previous example
-class HomePageView(TemplateView):
-    def get(self, request, **kwargs):
-        return render(request, 'index.html', context=None)
+from django.views.generic import CreateView, UpdateView
 
 
-# From previous example
-class AboutPageView(TemplateView):
-    template_name = "about.html"
+class NewPostView(CreateView):
+    model = WeatherSpot
+#    form_class = InputForm
+    fields = ('location', 'start_date', )
+    success_url = reverse_lazy('show_weather')
+    template_name = 'new_spot.html'
+
+    
+class SpotUpdateView(UpdateView):
+    model = WeatherSpot
+    fields = ('location', 'start_date', )
+    template_name = 'spot_edit.html'
+    pk_url_kwarg = 'pk'
+    context_object_name = 'spot'
+    success_message = 'Settings saved'
+    success_url = reverse_lazy('show_weather')
+
     
 # Form to ask user location for weather report; results are displayed under form
-
+# ** Oldest version with everything displayed on same page **
 def get_input(request):
 
     wspot = get_object_or_404(WeatherSpot, pk=1)
@@ -40,6 +55,8 @@ def get_input(request):
         
     return render(request, 'index.html', {'infields': form, 'wspot': wspot})
     
+    
+# Original view for editing WeatherSpot location    
 def edit_spot(request, pk):
     ws = get_object_or_404(WeatherSpot, pk=pk)
     
@@ -51,7 +68,10 @@ def edit_spot(request, pk):
     else:
         form = InputForm(instance=ws)
     return render(request, 'spot_edit.html', {'infields': form, 'ws': ws})
+    
 
+
+    
 def show_spots(request):
 
     spots = WeatherSpot.objects.all().order_by('pk')
@@ -66,8 +86,9 @@ def show_spots(request):
     except InputValueError as e:
         # return to form, display error message with whatever value caused the problem
         pass
-    return render(request, 'weather_spots.html', {'spots': spots})  
-#
+    return render(request, 'weather_spots.html', {'spots': spots})
+
+
 def chart_data(request, pk):
 
     # Combine hourly data from different days in the weather spot

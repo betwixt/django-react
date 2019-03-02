@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'multi_weather',
+    'bootstrap_modal_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

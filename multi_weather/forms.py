@@ -1,7 +1,9 @@
 from django import forms
 from .models import WeatherSpot
+from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
 
-class InputForm(forms.ModelForm):
+
+class InputForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
 
     class Meta:
         model = WeatherSpot

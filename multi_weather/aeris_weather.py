@@ -167,11 +167,12 @@ def validate_place(location):
     try:
         jresponse = simpleAerisRequest(location, 'places', {})
     except AerisAPIError as e:
-        print ('Error given: {}\n'.format(e.errcode['code']) )
+        code = e.errcode['code']
+        if not code == 'invalid_location':
+            print ('In validate_place, unexpected error code: {}\n'.format(code) )
         return False
     else:
-        print('simpleAerisRequest returns {}'.format(jresponse))
-        return True  #otherwise, an exception raised?
+        return True  
 
 #======================
 # Return day abbreviation, given a date string in ISO format

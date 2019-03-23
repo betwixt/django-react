@@ -8,17 +8,25 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 		<link href="//fonts.googleapis.com/css?family=Arapey" rel="stylesheet" type="text/css">
 		<link href="//fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+		<link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{% static 'css/spots.css' %}">
     </head>
     <body>
-<!--		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>   -->
+<!--   			{% if spots|length <  3 %}				{% endif %}
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>   -->
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script> 
 		<script src="https://code.highcharts.com/highcharts.src.js"></script>
 
-		<div>
+		<div id="topdiv">
 			<p id="pagetitle"> Multi-City Weather  </p>
+		{% if spots|length <  3 %}
+		<button id="new-spot" type="button" class="btn btn-success btn-sm">
+				Click to add a city
+		</button> 
+		{% endif %}
 		</div>
 		
 		<div class="row">
@@ -93,6 +101,7 @@
 				  console.log('In each, data-id is ' + $(this).data('id'))
 				  $(this).modalForm({formURL: $(this).data('id'), modalID: "#popup"});
 				});
+				$("#new-spot").modalForm({formURL: "{% url 'wspot_new' %}", modalID: "#popup"})
 		  });
 	    </script>
 

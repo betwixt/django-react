@@ -1,21 +1,26 @@
 
-#pagetitle {
-    color: red;
-	font-size: 30px;
-	font-family: 'Montserrat';
-	font-weight: bold;
-	text-align: left;
-}
-
-.city {
-	font-size: 28px;
-	font-family: 'Arapey';
-	font-weight: bold;
-}
-
 body {
     padding-left: 15px;
 	text-align: center;
+}
+
+#pagetitle {
+    color: green;
+	font-size: 30px;
+	font-family: 'Montserrat';
+	font-weight: bold;
+}
+
+#topdiv {
+	text-align: left;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.city {
+	font-size: 20px;
+	font-family: 'Raleway';
+	font-weight: bold;  
 }
 
 .petite {
@@ -27,7 +32,7 @@ body {
 .edit {
 	top: -20px;
 	display: inline-block;
-	margin-left: 41px;
+	margin-left: 50px;
 }
 
 .vertical {

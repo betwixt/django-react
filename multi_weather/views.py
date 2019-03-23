@@ -12,28 +12,26 @@ from datetime import date
 from .forms import InputForm
 from .aeris_weather import getConditions, getForecasts, getHourly
 from .models import WeatherSpot
-from .errors import ConnectionError, InputValueError
+from .errors import ConnectionError, AerisAPIError
 
 from django.views.generic import CreateView, UpdateView
 
 
-class NewSpotView(CreateView):
-    model = WeatherSpot
-#    form_class = InputForm
-    fields = ('location', 'start_date', )
-    success_url = reverse_lazy('show_weather')
-    template_name = 'new_spot.html'
+class NewSpotView(PassRequestMixin, SuccessMessageMixin, CreateView):
+    template_name = 'spot_edit.html'
+    form_class = InputForm  
+    success_url = reverse_lazy('show_weather')   
 
-#    fields = ('location', 'start_date', )    
+
 class SpotUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = WeatherSpot
     form_class = InputForm
     template_name = 'spot_edit.html'
-    pk_url_kwarg = 'pk'
-    context_object_name = 'spot'
-    success_message = 'Settings saved'
+    success_message = 'WeatherSpot was updated.'
     success_url = reverse_lazy('show_weather')
-
+#    fields = ('location', 'start_date', )  
+#    pk_url_kwarg = 'pk'
+#    context_object_name = 'spot'  
     
 # Form to ask user location for weather report; results are displayed under form
 # ** Oldest version with everything displayed on same page **
@@ -73,7 +71,7 @@ def edit_spot(request, pk):
 
 
     
-def show_spots(request):
+def show_spots(request):  
 
     spots = WeatherSpot.objects.all().order_by('pk')
     try:
@@ -84,9 +82,7 @@ def show_spots(request):
     except ConnectionError as e:
         pass
         # don't redraw weather info, display a message
-    except InputValueError as e:
-        # return to form, display error message with whatever value caused the problem
-        pass
+
     return render(request, 'weather_spots.html', {'spots': spots})
 
 

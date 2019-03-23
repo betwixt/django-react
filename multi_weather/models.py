@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+import datetime
 
 class WeatherSpot(models.Model):
     # From a separate example
@@ -8,7 +8,7 @@ class WeatherSpot(models.Model):
     #text = models.TextField()
     
     location = models.CharField(max_length=200)
-    start_date = models.DateTimeField(default=timezone.now, blank=True)
+    start_date = models.DateField(default=datetime.date.today)
     observation = {}
     forecast = {}
 

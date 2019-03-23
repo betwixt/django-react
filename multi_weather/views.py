@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
+from bootstrap_modal_forms.mixins import PassRequestMixin
 from datetime import date
 
 from .forms import InputForm
@@ -16,17 +17,17 @@ from .errors import ConnectionError, InputValueError
 from django.views.generic import CreateView, UpdateView
 
 
-class NewPostView(CreateView):
+class NewSpotView(CreateView):
     model = WeatherSpot
 #    form_class = InputForm
     fields = ('location', 'start_date', )
     success_url = reverse_lazy('show_weather')
     template_name = 'new_spot.html'
 
-    
-class SpotUpdateView(UpdateView):
+#    fields = ('location', 'start_date', )    
+class SpotUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     model = WeatherSpot
-    fields = ('location', 'start_date', )
+    form_class = InputForm
     template_name = 'spot_edit.html'
     pk_url_kwarg = 'pk'
     context_object_name = 'spot'

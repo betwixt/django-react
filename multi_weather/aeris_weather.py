@@ -2,7 +2,7 @@ import requests
 import datetime
 from pytz import timezone
 from requests.exceptions import HTTPError
-from .errors import ConnectionError
+from .errors import ConnectionError, AerisAPIError
 
 app_id = "*"
 client_id = "OJYEZahfbhZ3l3LDVMnw4"
@@ -10,7 +10,7 @@ client_secret = "QJZDkwLIwte4e2ReFJjeRuc685GZdYXzynpDuTMf"
 #client_secret = "7Bpln54RX53moAUSNLNLd1XtvHn8e3c2eedzWsyn"
 verbose = False
 
-
+#======================
 #  For making simple requests that only involve a specific location (the :id action) and
 #  parameter settings ( which are optional)
 def simpleAerisRequest(location, endpoint, paramMap={}):
@@ -43,7 +43,9 @@ def simpleAerisRequest(location, endpoint, paramMap={}):
         #if verbose:
         #    print('simpleAerisRequest returns {}'.format(jres))
         return jres
-	
+
+
+#======================
 #  Returns a dictionary containing info from Aeris observation:
 #       Station name, city, datetime w/ local timezone
 #       Temperature, wind speed, general description, matching icon
@@ -72,6 +74,8 @@ def getConditions(location):
         print(map)
     return map
 
+    
+#======================
 #   Returns an array of dictionaries - forecast info for each day
 #       Date, name of day, max temp, min temp, chance of precip, wind speed,
 #       hourly temps throughout day
@@ -119,6 +123,8 @@ def getForecasts(location):
         print(fc_days)
     return fc_days
     
+
+#======================
 #   Creates 2 arrays of hourly data: temp and % precipitation
 #   Each array has elements that are timestamp/data, for 4 days
 #   TODO: Include a check that dates in the weather data are as expected
@@ -154,8 +160,20 @@ def getHourly(location, start_date):
         
     return {'hour_temps': temps, 'hour_pops': pops, 'tz': tz}
     
+    
+#======================
+# Return whether the argument is a valid location for returning weather results
+def validate_place(location):
+    try:
+        jresponse = simpleAerisRequest(location, 'places', {})
+    except AerisAPIError as e:
+        print ('Error given: {}\n'.format(e.errcode['code']) )
+        return False
+    else:
+        print('simpleAerisRequest returns {}'.format(jresponse))
+        return True  #otherwise, an exception raised?
 
-
+#======================
 # Return day abbreviation, given a date string in ISO format
 def day_of_week(dt_str):
     datestring = ''.join((dt_str[:-3], '00'))

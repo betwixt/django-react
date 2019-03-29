@@ -103,3 +103,7 @@ body {
 /*	border: 2px solid gray;
 	padding: 2px;  */
 }
+.popup_style{
+	font-family: 'Raleway';
+    border-color: green;
+}

@@ -8,15 +8,14 @@
 	{{infields.as_p}}
 	<button type="submit">Submit</button>    -->
 	
-  <div class="modal-header">
-    <h3 class="modal-title">Choose Location</h3>
-	<h5> A location can be a zip code or City, State </h5>
+  <div class="modal-header popup_style">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
-    </button>
+    </button>    <h3 class="modal-title">Enter a Location</h3>
+	<h5> A location can be a zip code, airport code, or city, state </h5>
   </div>
 
-  <div class="modal-body">
+  <div class="modal-body popup_style">
 
     <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
       {% for error in form.non_field_errors %}
@@ -37,7 +36,7 @@
     {% endfor %}
   </div>
 
-  <div class="modal-footer">
+  <div class="modal-footer popup_style">
     <button type="button" class="submit-btn btn btn-primary">Save</button>
   </div>
 

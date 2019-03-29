@@ -19,7 +19,7 @@ from django.views.generic import CreateView, UpdateView
 
 class NewSpotView(PassRequestMixin, SuccessMessageMixin, CreateView):
     template_name = 'spot_edit.html'
-    form_class = InputForm  
+    form_class = InputForm
     success_url = reverse_lazy('show_weather')   
 
 

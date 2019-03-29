@@ -11,7 +11,7 @@ class InputForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
 
     class Meta:
         model = WeatherSpot
-        fields = ['location', 'start_date']
+        fields = ['location']
 #    location = forms.CharField(label="Location", max_length=100)
 #    start_date = forms.CharField(label="Start Date", max_length=100, required=False)
 
@@ -20,6 +20,6 @@ class InputForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         data = self.cleaned_data['location']
         # print('Running in clean_location')
         if not validate_place(data):
-            raise forms.ValidationError(_('Unknown location! Enter a zip code or city, state'), code='bad_location')
+            raise forms.ValidationError(_('Unknown location, please try again'), code='bad_location')
         
         return data

@@ -1,0 +1,22 @@
+{
+    "birthval": {
+        "bmonth": "1",
+        "bcalday": "1",
+        "monthSelectVals": [
+            true, false, false, false, false, false, 
+            false, false, false, false, false, false ],
+		"daySelectVals": [
+            true, false, false, false, false, false, false, false, 
+            false, false, false, false, false, false, false, false, 
+            false, false, false, false, false, false, false, false, 
+            false, false, false, false, false, false, false ],
+		"maxDays": "31"
+    },
+    "chosenDate": "2017-11-1",
+    "colorPane" : "0",
+    "weekbar": {
+		"weekActive": false,
+        "barInfo": [],
+        "weekSelectVals":[true, false, false, false, false, false, false]
+    }
+}

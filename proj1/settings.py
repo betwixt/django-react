@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'multi_weather',
     'bootstrap_modal_forms',
     'widget_tweaks',
+    'rest_framework',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'proj1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "js_templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +74,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'proj1.wsgi.application'
 
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -121,4 +129,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
+# Only for deployed app on pythonanywhere ?
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

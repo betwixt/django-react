@@ -1,0 +1,17 @@
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Django + React using Webpack!</title>
+    <!-- Webpack rendered CSS -->
+    {% render_bundle 'main' 'css' %}
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Webpack rendered JS -->
+    {% render_bundle 'main' 'js' %}
+  </body>
+</html>

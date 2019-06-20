@@ -147,8 +147,8 @@ button{
 
 .barsq p, .barselect p {
   margin-bottom: 0px; 
-  /* font-family: "Georgia";
-   border: 1px solid green; */
+/*  font-family: "Georgia";
+  border: 1px solid green; */
 }
 
 .barsq{
@@ -157,7 +157,7 @@ button{
   float: left;
   height: 97px;
   width: 65px;
-  padding: 5px;
+  padding: 2px;
 }
 
 .barselect{
@@ -167,23 +167,26 @@ button{
   float: left;
   height: 97px;
   width: 65px;
-  padding: 5px;
+  padding: 2px;
 }
 
 .weekday{
   font-size: 10px;
   font-weight: bold;
+  margin-top: 5px;
 }
 
 .calnum{
   font-size: 24px;
   font-style: italic;
   color: blue;
+  margin-top: 5px;
 }
 
 .sqtext{
   font-size: 14px;
   font-style: italic;
+  margin-top: 9px;
 }
 
 
@@ -194,7 +197,7 @@ button{
 
 .baractive {
     display: block-inline;
-    margin-left: 25px;
+/*    margin-left: 25px; */
     margin-top: 20px;
     height: 103px;
     border: 3px solid orange;
@@ -203,7 +206,7 @@ button{
 .barhide {
   visibility: hidden;
     display: block-inline;
-    margin-left: 25px;
+/*    margin-left: 25px; */
     margin-top: 20px;
     height: 103px;
     border: 3px solid orange;

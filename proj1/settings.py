@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'multi_weather',
     'bootstrap_modal_forms',
     'widget_tweaks',
-    'rest_framework',
     'webpack_loader',
+    'rest_framework',
+    'colorcalc',
 ]
 
 MIDDLEWARE = [
@@ -74,12 +75,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'proj1.wsgi.application'
 
+# Support for React frontend
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'dist/',
         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
     }
 }
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+#        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

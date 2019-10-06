@@ -4,9 +4,11 @@
 __pycache__
 myvenv
 db.sqlite3
-/static
 .DS_Store
+/assets/dist
+/assets/src.old
+build
 node_modules
 package-lock.json
+static
 webpack-stats.json
-/assets/dist

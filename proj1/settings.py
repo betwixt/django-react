@@ -68,7 +68,10 @@ ROOT_URLCONF = 'proj1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "js_templates")],
+        'DIRS': [
+            os.path.join(BASE_DIR, "js_templates"),
+            os.path.join(BASE_DIR, "build"),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -152,6 +155,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
+    os.path.join(BASE_DIR, 'build/static'),
 )
 # Only for deployed app on pythonanywhere ?
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

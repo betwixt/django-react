@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^calc_api/', include('colorcalc.urls')),
     url(r'^weather/', include('multi_weather.urls')),
-    url(r'^', TemplateView.as_view(template_name='index.html')),
+    url(r'^colors1/', TemplateView.as_view(template_name='index.html')),
+    url(r'^colors2/', TemplateView.as_view(template_name='colors2.html')),
+    url(r'^', TemplateView.as_view(template_name='homepage.html')),
 ]

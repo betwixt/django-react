@@ -44,12 +44,12 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'webpack_loader',
     'rest_framework',
-    'corsheaders',
+#    'corsheaders',
     'colorcalc',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+#    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -1,18 +1,39 @@
 
 .App {
+  padding-left: 15px;
   text-align: center;
   /* font: 14px "Times New Roman", Futura, sans-serif; */
 }
 
+.navbar-nav > li > a {
+    padding: 5px 8px 8px 5px !important; 
+    font-size: 12px;
+    color: black !important;
+}
+
+.navbar {
+    min-height: 32px !important;
+}
+.nav{
+    padding-left: 8px;
+}
 
 .App-header {
   background-color: indigo;
+  margin-top: 12px;
   height: 100px;
   padding: 20px;
   color: orange;
-  width: 900px;
+  width: 900px; 
   display: inline-block;
 }
+
+#top {
+    display: inline-block;
+    width: 900px;
+/*    border: 2px solid green; */
+}
+
 
 h1 {
   margin: 5px;
@@ -79,12 +100,6 @@ h3 {
     top: -120px;
     border-left: 1px solid gray;
 */
-}
-
-#top {
-    display: inline-block;
-    width: 900px;
-/*    border: 2px solid green; */
 }
 
 

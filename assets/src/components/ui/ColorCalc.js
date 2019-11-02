@@ -14,9 +14,9 @@ class ColorCalc extends Component {
      <div className="App">
 		<nav className="navbar navbar-default" style={{margin: "0px"}}>
 			<ul className="nav navbar-nav navbar-left">
-				<li><a href="http://127.0.0.1:8000/">Home<span className="sr-only">(current)</span></a></li>
-				<li><a href="http://127.0.0.1:8000/colors2/">Colors w/ Data</a></li>
-				<li><a href="http://127.0.0.1:8000/weather/">Multi Weather</a></li>
+				<li><a href="/">Home<span className="sr-only">(current)</span></a></li>
+				<li><a href="/colors2/">Colors w/ Data</a></li>
+				<li><a href="/weather/">Multi Weather</a></li>
 				<li className="active"><a href="#">Color Calc 1</a></li>
 			</ul>
 

@@ -52,7 +52,10 @@
 				<strong>At {{ wspot.observation.datetime }}</strong> 	
 			</p>
 			<button type="button" class="edit-spot btn btn-link edit" data-id="{% url 'wspot_edit' wspot.pk %}">
-				<span class="glyphicon glyphicon-pencil"></span>
+				<small><span class="glyphicon glyphicon-pencil"></span></small>
+			</button>
+ 			<button type="button" class="delete-spot btn btn-link edit" data-id="{% url 'wspot_del' wspot.pk %}">
+				<small><span class="glyphicon glyphicon-remove"></span></small>
 			</button> 
 
 			<div style="border: 1px solid lightblue">
@@ -105,12 +108,14 @@
 
         <script type="text/javascript">
 		  $(function () {	
-				// associate popup to each edit button
+				// associate popup to each Edit button and the New button
 				$(".edit-spot").each(function () {
-				  console.log('In each, data-id is ' + $(this).data('id'))
 				  $(this).modalForm({formURL: $(this).data('id'), modalID: "#popup"});
 				});
-				$("#new-spot").modalForm({formURL: "{% url 'wspot_new' %}", modalID: "#popup"})
+				$(".delete-spot").each(function () {
+				  $(this).modalForm({formURL: $(this).data('id'), modalID: "#popup"});
+				});
+				$("#new-spot").modalForm({formURL: "{% url 'wspot_new' %}", modalID: "#popup"});
 		  });
 	    </script>
 

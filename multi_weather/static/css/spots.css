@@ -40,12 +40,13 @@ body {
     font-size: 10px;
 	text-align: left;
 	display: inline-block;
+	margin-right: 48px;
 }
 
 .edit {
 	top: -20px;
 	display: inline-block;
-	margin-left: 50px;
+	padding: 6px 3px;
 }
 
 .vertical {

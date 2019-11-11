@@ -14,7 +14,7 @@ from .aeris_weather import getConditions, getForecasts, getHourly
 from .models import WeatherSpot
 from .errors import ConnectionError, AerisAPIError
 
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 
 class NewSpotView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -29,10 +29,15 @@ class SpotUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     template_name = 'spot_edit.html'
     success_message = 'WeatherSpot was updated.'
     success_url = reverse_lazy('show_weather')
-#    fields = ('location', 'start_date', )  
-#    pk_url_kwarg = 'pk'
-#    context_object_name = 'spot'  
     
+class DeleteSpotView(PassRequestMixin, SuccessMessageMixin, DeleteView):
+    model = WeatherSpot
+    template_name = 'spot_delete.html'
+    success_message = 'WeatherSpot was deleted.'
+    success_url = reverse_lazy('show_weather')
+
+
+# UNUSED
 # Form to ask user location for weather report; results are displayed under form
 # ** Oldest version with everything displayed on same page **
 def get_input(request):
@@ -46,15 +51,12 @@ def get_input(request):
             wspot.location = loc
             wspot.observation = getConditions(loc)
             wspot.forecasts = getForecasts(loc)
-            wspot = form.save()
-            
+            wspot = form.save()            
     else:
-        form = InputForm()   
-        
-        
+        form = InputForm()           
     return render(request, 'index.html', {'infields': form, 'wspot': wspot})
     
-    
+# UNUSED    
 # Original view for editing WeatherSpot location    
 def edit_spot(request, pk):
     ws = get_object_or_404(WeatherSpot, pk=pk)
@@ -74,6 +76,7 @@ def edit_spot(request, pk):
 def show_spots(request):  
 
     spots = WeatherSpot.objects.all().order_by('pk')
+    print('In show_spots, count is {}'.format(spots.count()))
     try:
         for sp in spots:
             # use location of each spot to request current conditions and forecasts

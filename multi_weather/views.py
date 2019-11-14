@@ -7,14 +7,17 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from bootstrap_modal_forms.mixins import PassRequestMixin
+from bootstrap_modal_forms.generic import BSModalDeleteView
 from datetime import date
 
 from .forms import InputForm
 from .aeris_weather import getConditions, getForecasts, getHourly
 from .models import WeatherSpot
+from requests.exceptions import HTTPError
 from .errors import ConnectionError, AerisAPIError
 
 from django.views.generic import CreateView, UpdateView, DeleteView
+import requests
 
 
 class NewSpotView(PassRequestMixin, SuccessMessageMixin, CreateView):
@@ -30,13 +33,19 @@ class SpotUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
     success_message = 'WeatherSpot was updated.'
     success_url = reverse_lazy('show_weather')
     
-class DeleteSpotView(PassRequestMixin, SuccessMessageMixin, DeleteView):
+class DeleteSpotView(BSModalDeleteView):
     model = WeatherSpot
     template_name = 'spot_delete.html'
     success_message = 'WeatherSpot was deleted.'
     success_url = reverse_lazy('show_weather')
 
+    # def post(self, request, id=None, *args, **kwargs):
+        # print('Entering DeleteSpotView post, request {}'.format(request))
+        # import pdb; pdb.set_trace()
+        
+        # return super(DeleteSpotView, self).post(request, id=None, *args, **kwargs)           
 
+            
 # UNUSED
 # Form to ask user location for weather report; results are displayed under form
 # ** Oldest version with everything displayed on same page **

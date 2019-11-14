@@ -48,15 +48,23 @@
 				{{wspot.observation.city }} 
 			</p>
 			
+			<div style="display: inline-block">
 			<p class=petite> 
 				<strong>At {{ wspot.observation.datetime }}</strong> 	
 			</p>
 			<button type="button" class="edit-spot btn btn-link edit" data-id="{% url 'wspot_edit' wspot.pk %}">
 				<small><span class="glyphicon glyphicon-pencil"></span></small>
 			</button>
+			<!--
+			<a href="{% url 'wspot_del' wspot.pk %}">
+ 			<button type="submit" class="btn btn-link edit">
+				<small><span class="glyphicon glyphicon-remove"></span></small>
+			</button> </a>
+				-->
  			<button type="button" class="delete-spot btn btn-link edit" data-id="{% url 'wspot_del' wspot.pk %}">
 				<small><span class="glyphicon glyphicon-remove"></span></small>
 			</button> 
+			</div>
 
 			<div style="border: 1px solid lightblue">
 				<div class=beside>

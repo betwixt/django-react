@@ -1,12 +1,17 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
 
-<form method="POST">{% csrf_token %}
+<form method="POST" action="">{% csrf_token %}
+
 	<div class="modal-header popup_style">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		  <span aria-hidden="true">&times;</span>
 		</button>
 	</div>
+
 	<div class="modal-body popup_style">
-		<h5>Are you sure you want to delete location: <em>{{ object.location }}</em>?</h5>
-		<input type="submit" class="submit-btn btn btn-primary" value="Delete">
+		<h5>Are you sure you want to delete location: <strong>{{ object.location }}</strong>?</h5>
+		<button type="submit" class="btn btn-primary">Delete</button>
 	</div>
 </form>
+

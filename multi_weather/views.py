@@ -36,7 +36,7 @@ class SpotUpdateView(PassRequestMixin, SuccessMessageMixin, UpdateView):
 class DeleteSpotView(BSModalDeleteView):
     model = WeatherSpot
     template_name = 'spot_delete.html'
-    success_message = 'WeatherSpot was deleted.'
+    success_message = 'WeatherSpot was deleted.'  
     success_url = reverse_lazy('show_weather')
 
     # def post(self, request, id=None, *args, **kwargs):
@@ -85,7 +85,6 @@ def edit_spot(request, pk):
 def show_spots(request):  
 
     spots = WeatherSpot.objects.all().order_by('pk')
-    print('In show_spots, count is {}'.format(spots.count()))
     try:
         for sp in spots:
             # use location of each spot to request current conditions and forecasts
@@ -102,7 +101,6 @@ def chart_data(request, pk):
 
     # Combine hourly data from different days in the weather spot
     ws = get_object_or_404(WeatherSpot, pk=pk)
-    print('In chart_data, pk is {}'.format(pk))
     fc = getHourly(ws.location, date.today())
 
     data = fc['hour_temps']

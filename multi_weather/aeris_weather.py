@@ -136,7 +136,7 @@ def getHourly(location, start_date):
     jresponse = simpleAerisRequest(location, 'forecasts', specs)    
     hourly = jresponse['response'][0]['periods']
     tz = jresponse['response'][0]['profile']['tz']
-    print('timezone: {}'.format(tz))
+    # print('timezone: {}'.format(tz))
     
     temps = []
     pops = []
